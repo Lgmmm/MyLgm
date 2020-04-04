@@ -1,0 +1,2 @@
+nihao 你好啊啊====123
+com.day5.io.PrintStreamTest@1b6d3586

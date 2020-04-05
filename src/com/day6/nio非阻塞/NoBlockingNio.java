@@ -25,19 +25,14 @@ public class NoBlockingNio {
         try {
             //获取通道
             ServerSocketChannel sschannel = ServerSocketChannel.open();
-
             //切换非阻塞模式
             sschannel.configureBlocking(false);
-
             //绑定连接
             sschannel.bind(new InetSocketAddress(8899));
-
             //获取选择器
             Selector selector = Selector.open();
-
             //将通道注册到选择器,并指定监听接收事件
             sschannel.register(selector, SelectionKey.OP_ACCEPT);
-
             //轮询式获取选择器上已经准备就绪的事件
             while (selector.select() > 0) {
                 //获取当前选择器中所有注册的‘选择键’（已就绪的监听事件）
@@ -61,7 +56,6 @@ public class NoBlockingNio {
                         SocketChannel sChannel = (SocketChannel) sk.channel();
                         //读数据
                         ByteBuffer buf = ByteBuffer.allocate(1024);
-
                         int len = 0;
                         while ((len = sChannel.read(buf)) != -1) {
                             buf.flip();
@@ -72,41 +66,30 @@ public class NoBlockingNio {
                     //取消选择器
                     it.remove();
                 }
-
             }
-
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
 
         }
-
-
     }
-
     //客户端
     @Test
     public void testClient() {
         try {
             //获取通道
             SocketChannel sChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1", 8899));
-
             //切换非阻塞模式，默认是阻塞模式
             sChannel.configureBlocking(false);
-
             //分配缓冲区
             ByteBuffer buf = ByteBuffer.allocate(1024);
-
             //发送数据给服务端
             buf.put((new Date().toString()).getBytes());
             buf.flip();
             sChannel.write(buf);
             buf.clear();
-
             //关闭通道
             sChannel.close();
-
         } catch (Exception e) {
 
         } finally {

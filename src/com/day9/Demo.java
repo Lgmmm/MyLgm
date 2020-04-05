@@ -35,7 +35,7 @@ public class Demo {
 
 
         bf.flip();
-        sa.write();
+        sa.write(bf);
         bf.clear();
 
         server.close();
